@@ -1,0 +1,27 @@
+# create environment
+python -m venv .venv
+
+# Activate environment
+.venv\scripts\activate
+
+# for å logge inn på serveren
+mysql -h kark.uit.no -u stud_v23_ssa171 -p 
+
+# for å logge inn på serveren med passord
+flaskappquiz23
+
+# for å logge inn på databasen
+use stud_v23_ssa171
+
+#eksempler på vanlige spørringer
+select * from `user`;
+update `user` set email_validation = 1 where Id = 7;
+ALTER TABLE user ADD COLUMN avatar_link VARCHAR(200) AFTER email;
+describe achievement;
+update achievement set description = 'updated' where id = 1;
+delete from user_has_achievement where achievement_id = 6;
+insert into user_has_achievement (user_id, achievement_id) values (4, 6);
+
+# for å logge ut av serveren
+exit
+
