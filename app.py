@@ -9,6 +9,11 @@ app = Flask(__name__)
 
 
 @app.route('/')
+def index():
+    return render_template('home.html', the_title='Welcome to my home page!')
+
+
+@app.route('/index')
 def hello() -> 'html':
     conn = mysql.connector.connect(**dbconfig)
     cursor = conn.cursor()
