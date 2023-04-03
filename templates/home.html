@@ -1,6 +1,15 @@
 {% extends 'base.html' %}
 {% block body %}
     <h1>{{ the_title }}</h1>
-    <p>Her kan du lage quizzer og se resultater.</p>
-    <p href="login.html">login</p>
+    <p><a href="{{ url_for('login') }}">Login</a></p>
+    <p></p><a href="{{ url_for('register') }}">register</a></p>
+    <p>bruker</p>
+    <p><a href="{{ url_for('quiz') }}">quiz</a></p>
+    <p><a href="{{ url_for('question') }}">question</a></p>
+    <p><a href="{{ url_for('results') }}">resultat</a></p>
+    <p>admin</p>
+    <p><a href="{{ url_for('create_quiz') }}">create_quiz, edit, delete</a></p>
+    <p><a href="{{ url_for('create_question') }}">create_question, edit, delete</a></p>
+    <p><a href="{{ url_for('quizzes') }}">all quizzes</a></p>
+    <p><a href="{{ url_for('all_results') }}">all results</a></p>
 {% endblock %}
