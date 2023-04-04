@@ -1,0 +1,17 @@
+{% extends 'base.html' %} {% block body %}
+<h1>{{ the_title }}</h1>
+<table>
+  <thead>
+    <th>id</th>
+    <th>owner</th>
+  </thead>
+  <tbody>
+    {% for q in quiz %}
+    <tr>
+      <td>{{ q[0] }}</td>
+      <td>{{ q[1] }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
