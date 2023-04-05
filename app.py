@@ -30,22 +30,22 @@ def quiz():
 
 @app.route('/results')
 def results():
-    return render_template('results.html', the_title='Results')
+    return render_template('bruker/results.html', the_title='Results')
 
 
 @app.route('/create_quiz')
 def create_quiz():
-    return render_template('create_quiz.html', the_title='Create Quiz')
+    return render_template('admin/create_quiz.html', the_title='Create Quiz')
 
 
 @app.route('/create_question')
 def create_question():
-    return render_template('create_question.html', the_title='Create Question')
+    return render_template('admin/create_question.html', the_title='Create Question')
 
 
 @app.route('/question')
 def question():
-    return render_template('question.html', the_title='Question')
+    return render_template('bruker/question.html', the_title='Question')
 
 
 @app.route('/quizzes')
