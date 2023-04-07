@@ -1,0 +1,49 @@
+{% extends 'base.html' %} {% block body %}
+<div class="user-form">
+  <h1>{{ the_title }}</h1>
+  {% if message != "" %}
+  <p>{{message}}</p>
+  {% endif %}
+  <form method="post" action="">
+    <div class="form-group">
+      <label>Title</label>
+      <input
+        type="text"
+        class="form-control"
+        name="title"
+        {%
+        if
+        quizdata
+        !="None"
+        %}
+        value="{{quizdata[2]}}"
+        {%
+        endif
+        %}
+      />
+    </div>
+    <div class="form-group">
+      <label>Quiz URL</label>
+      <input
+        type="text"
+        class="form-control"
+        name="quiz_url"
+        {%
+        if
+        quizdata
+        !="None"
+        %}
+        value="{{quizdata[3]}}"
+        {%
+        endif
+        %}
+      />
+    </div>
+
+    <div class="form-group">
+      <input type="hidden" name="quiz_id" value="{{quizdata[0]}}" />
+      <button type="submit" class="btn">Update Quiz</button>
+    </div>
+  </form>
+</div>
+{% endblock %}

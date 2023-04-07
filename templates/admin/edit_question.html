@@ -1,0 +1,70 @@
+{% extends 'base.html' %} {% block body %}
+<div class="user-form">
+  <h1>{{ the_title }}</h1>
+
+  {% if message != "" %}
+  <p>{{message}}</p>
+  {% endif %}
+  <form method="post" action="">
+    <div class="form-group">
+      <label>Question Title</label>
+      <input
+        type="text"
+        class="form-control"
+        name="title"
+        value="{{questiondata[1]}}"
+      />
+    </div>
+    <div class="form-group">
+      <label>Option 1</label>
+      <input
+        type="text"
+        class="form-control"
+        name="option1"
+        value="{{questiondata[2]}}"
+      />
+    </div>
+    <div class="form-group">
+      <label>Option 2</label>
+      <input
+        type="text"
+        class="form-control"
+        name="option2"
+        value="{{questiondata[3]}}"
+      />
+    </div>
+    <div class="form-group">
+      <label>Option 3</label>
+      <input
+        type="text"
+        class="form-control"
+        name="option3"
+        value="{{questiondata[4]}}"
+      />
+    </div>
+    <div class="form-group">
+      <label>Option 4</label>
+      <input
+        type="text"
+        class="form-control"
+        name="option4"
+        value="{{questiondata[5]}}"
+      />
+    </div>
+    <div class="form-group">
+      <label>Answer</label>
+      <select class="form-control" name="answer">
+        <option value="1">Option 1</option>
+        <option value="2" {% if questiondata[6] == "2" %} selected {% endif %}>Option 2</option>
+        <option value="3"  {% if questiondata[6] == "3" %} selected {% endif %}>Option 3</option>
+        <option value="4"  {% if questiondata[6] == "4" %} selected {% endif %}>Option 4</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <input type="hidden" name="quiquestion_id" value="{{questiondata[0]}}" />
+      <input type="hidden" name="quiz_id" value="{{questiondata[7]}}" />
+      <button type="submit" class="btn">Update Question</button>
+    </div>
+  </form>
+</div>
+{% endblock %}

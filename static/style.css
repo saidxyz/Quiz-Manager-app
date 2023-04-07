@@ -5,10 +5,199 @@ body{
 input {
     display:block;
 }
+table {
+    width: 100%;
+    display: table;
+    table-layout: fixed;
+}
 .table {
     border-color: blueviolet;
 }
 td, th {
     border: 1px solid #999;
     padding: 0.5rem;
+}
+
+.user-form {
+    max-width: 767px;
+    display: block;
+    margin: 0 auto;
+    background: #eee;
+    padding: 20px;
+    border: 1px solid #a1a1a1;
+}
+
+.form-control label {
+    display: block;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom:5px;
+}
+
+.form-control {
+    width: 100%;
+    border: 1px solid #ddd;
+    padding: 0px;
+    margin: 0px;
+    padding: 4px;
+    height: 40px;
+    margin-bottom: 25px;
+}
+
+button.btn {
+    border: 0px;
+    background: #15a555;
+    color: #fff;
+    padding: 15px 30px;
+    border-radius: 2px;
+    font-weight: bold;
+    font-size: 16px;
+}
+a.form-go-link {
+    font-size: 16px;
+    color: #000;
+    font-weight: bold;
+    margin-left: 13px;
+}
+header {
+    position: relative;
+    background: #e9e9e9;
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+header  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+}
+
+header  ul li a {
+    text-decoration: none;
+    padding: 17px 10px;
+    display: block;
+    color: #000;
+    font-size: 18px;
+}
+a.ceate-new {
+    background: #409f28;
+    color: #fff;
+    padding: 18px 0;
+    margin-bottom: 10px;
+    display: block;
+    max-width: 200px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+a.btn-primary {
+    border: 3px solid #51a13e;
+    display: inline-block;
+    text-decoration: none;
+    
+    color: #000;
+    padding: 3px 15px;
+    text-transform: lowercase;
+    border-radius: 5px;
+    margin: 0 3px;
+}
+
+a.btn-danger {
+    border: 3px solid #f00;
+    display: inline-block;
+    text-decoration: none;
+    
+    color: #000;
+    padding: 3px 15px;
+    text-transform: lowercase;
+    border-radius: 5px;
+    margin: 0 3px;
+}
+
+a.btn-secondary {
+    border: 3px solid #cf9f16;
+    display: inline-block;
+    text-decoration: none;
+    
+    color: #000;
+    padding: 3px 15px;
+    text-transform: lowercase;
+    border-radius: 5px;
+    margin: 0 3px;
+}
+ul.question-list li.active{
+    display: block;
+}
+
+.question-item{
+    display: none;
+}
+ul.question-list {
+    list-style: none;
+    padding: 0;
+    margin: 0px;
+}
+
+.quiz-taken {
+    background: #f3ebe1;
+}
+
+.question-item h3 {
+    padding: 16px 30px;
+    background: #e4e7b2;
+}
+
+ul.answer-list {
+    list-style: none;
+    margin: 62px 0;
+}
+
+ul.answer-list li .option {
+    display: flex;
+    margin: 22px 0;
+    align-items: flex-start;
+}
+
+ul.answer-list input {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+}
+
+label {
+    height: 32px;
+    font-size: 18px;
+    font-weight: bold;
+    padding-left: 10px;
+    position: relative;
+    top: 9px;
+}
+
+li.quiz-action {
+    display: block;
+    margin-bottom: 51px;
+    padding-left: 40px;
+}
+
+a.previous {
+    background: #91a544;
+    color: #fff;
+    padding: 16px 39px;
+    font-size: 18px;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 4px;
+}
+
+a.next {
+    background: #91a544;
+    color: #fff;
+    padding: 16px 39px;
+    font-size: 18px;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 4px;
+    margin-left: 20px;
 }

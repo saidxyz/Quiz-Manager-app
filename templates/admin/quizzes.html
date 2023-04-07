@@ -1,15 +1,28 @@
 {% extends 'base.html' %} {% block body %}
 <h1>{{ the_title }}</h1>
-<table>
+<table cellpadding="0" cellspacing="0" class="table">
   <thead>
     <th>id</th>
-    <th>owner</th>
+    <th>Title</th>
+    <th>Quiz URL</th>
+    <th>Action</th>
   </thead>
   <tbody>
     {% for q in quiz %}
     <tr>
       <td>{{ q[0] }}</td>
-      <td>{{ q[1] }}</td>
+      <td>{{ q[2] }}</td>
+      <td>{{ q[3] }}</td>
+      <td>
+        <a href="/admin/edit_quiz/{{ q[0] }}" class="btn-primary">Edit</a>
+        <a href="/admin/delete_quiz/{{ q[0] }}" class="btn-danger">Delete</a>
+        <a href="/admin/question/{{ q[0] }}/create" class="btn-secondary"
+          >Create Question</a
+        >
+        <a href="/admin/question/{{ q[0] }}/all" class="btn-secondary"
+          >All Questions</a
+        >
+      </td>
     </tr>
     {% endfor %}
   </tbody>

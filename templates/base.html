@@ -1,11 +1,26 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-    <head>
-        <title>{{ the_title }}</title>
-        <link rel="stylesheet" href="static/style.css" />
-    </head>
-    <body>
-        {% block body %}
-        {% endblock %}
-    </body>
+  <head>
+    <title>{{ the_title }}</title>
+    <link rel="stylesheet" href="/static/style.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+  </head>
+  <body>
+    <header>
+      <ul>
+        <li>
+          <a href="/">Home</a>
+        </li>
+        <li>
+          {% if session.get("user_id") != None %}
+          <a href="/logout">Logout</a>
+          {% else %}
+          <a href="/login">Login</a>
+          {% endif %}
+        </li>
+      </ul>
+    </header>
+    {% block body %} {% endblock %}
+    <script src="/static/custom.js"></script>
+  </body>
 </html>

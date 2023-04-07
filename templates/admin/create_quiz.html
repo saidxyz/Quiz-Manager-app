@@ -1,4 +1,22 @@
 {% extends 'base.html' %} {% block body %}
-<h1>{{ the_title }}</h1>
-<p>tests</p>
+<div class="user-form">
+  <h1>{{ the_title }}</h1>
+  {% if message != "" %}
+  <p>{{message}}</p>
+  {% endif %}
+  <form method="post" action="">
+    <div class="form-group">
+      <label>Title</label>
+      <input type="text" class="form-control" name="title" />
+    </div>
+    <div class="form-group">
+      <label>Quiz URL</label>
+      <input type="text" class="form-control" name="quiz_url" />
+    </div>
+
+    <div class="form-group">
+      <button type="submit" class="btn">Create Quiz</button>
+    </div>
+  </form>
+</div>
 {% endblock %}
