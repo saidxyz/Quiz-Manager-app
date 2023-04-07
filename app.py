@@ -49,7 +49,7 @@ def login():
             session["user_id"] = row[0]
             session["is_admin"] = row[5]
             if row[5] == '1':
-                return redirect("/admin/create_quiz")
+                return redirect("/admin/quiz")
             else:
                 return redirect("/quiz")
         else:
@@ -84,6 +84,17 @@ def register():
     return render_template('register.html', the_title='Register', message=message)
 
 
+@app.route('/categories')
+def categories():
+    if checkUserLogin() is None:
+        return redirect("/login")
+    conn = dbconnection()
+    cursor = conn.cursor()
+    cursor.execute("select * from quizz order by id desc")
+    quiz = cursor.fetchall()
+    return render_template('categories.html', the_title='Categories', quiz=quiz)
+
+
 @app.route('/quiz')
 def quiz():
     if checkUserLogin() is None:
@@ -98,6 +109,19 @@ def quiz():
 @app.route('/results')
 def results():
     return render_template('bruker/results.html', the_title='Results')
+
+
+@app.route('/admin/quiz')
+def admin_quizzes():
+    if checkUserLogin() is None or checkUserRole('1') is False:
+        return redirect("/login")
+    conn = dbconnection()
+    cursor = conn.cursor()
+    cursor.execute("select * from quizz where user_id=%s order by id desc",
+                   (session.get("user_id"),))
+    result = cursor.fetchall()
+    return render_template('admin/quizzes.html', the_title='Quizzes', quiz=result)
+
 
 
 @app.route('/admin/create_quiz', methods=['GET', 'POST'])
@@ -120,7 +144,7 @@ def create_quiz():
             conn.commit()
             message = "Quiz created successfully."
             return redirect("/admin/quiz")
-    return render_template('admin/create_quiz.html', the_title='Create Quiz')
+    return render_template('admin/create_quiz.html', the_title='Create Quiz', message=message)
 
 
 @app.route('/admin/edit_quiz/<id>', methods=['GET', 'POST'])
@@ -153,18 +177,6 @@ def delete_quiz(id):
                    (id, session.get('user_id')))
     conn.commit()
     return redirect("/admin/quiz")
-
-
-@app.route('/admin/quiz')
-def admin_quizzes():
-    if checkUserLogin() is None or checkUserRole('1') is False:
-        return redirect("/login")
-    conn = dbconnection()
-    cursor = conn.cursor()
-    cursor.execute("select * from quizz where user_id=%s order by id desc",
-                   (session.get("user_id"),))
-    result = cursor.fetchall()
-    return render_template('admin/quizzes.html', the_title='Quizzes', quiz=result)
 
 
 @app.route('/admin/question/<id>/create', methods=['GET', 'POST'])
