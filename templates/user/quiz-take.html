@@ -2,65 +2,73 @@
 <h1>{{ the_title }} <small>(for: {{quizdata[2]}})</small></h1>
 
 <div class="quiz-taken">
-  <ul class="question-list">
-    {% for question in questionData%}
-    <li
-      class="question-item {% if loop.index == 1%} active {% endif %}"
-      id="question--{{loop.index}}"
-    >
-      <h3>Q{{loop.index}} : {{question[1]}}</h3>
-      <ul class="answer-list">
-        <li>
-          <div class="option">
-            <input
-              type="radio"
-              name="answer-{{question[0]}}"
-              value="1"
-              id="answer-{{question[2]}}"
-            />
-            <label for="answer-{{question[2]}}">{{question[2]}}</label>
-          </div>
-        </li>
-        <li>
-          <div class="option">
-            <input
-              type="radio"
-              name="answer-{{question[0]}}"
-              value="2"
-              id="answer-{{question[3]}}"
-            />
-            <label for="answer-{{question[3]}}">{{question[3]}}</label>
-          </div>
-        </li>
-        <li>
-          <div class="option">
-            <input
-              type="radio"
-              name="answer-{{question[0]}}"
-              value="3"
-              id="answer-{{question[4]}}"
-            />
-            <label for="answer-{{question[4]}}">{{question[4]}}</label>
-          </div>
-        </li>
-        <li>
-          <div class="option">
-            <input
-              type="radio"
-              name="answer-{{question[0]}}"
-              value="4"
-              id="answer-{{question[5]}}"
-            />
-            <label for="answer-{{question[5]}}">{{question[5]}}</label>
-          </div>
-        </li>
-      </ul>
-    </li>
-    {% endfor %}
-    <li class="quiz-action">
-      <a href="javascript:void 0" class="previous">Prev</a>
-      <a href="javascript:void 0" class="next">Next</a>
-    </li>
-  </ul>
+  <form method="post">
+    <ul class="question-list">
+      {% for question in questionData%}
+      <li
+        class="question-item {% if loop.index == 1%} active {% endif %}"
+        id="question--{{loop.index}}"
+      >
+        <h3>Q{{loop.index}} : {{question[1]}}</h3>
+        <input type="hidden" name="questions" value="{{question[0]}}" />
+        <ul class="answer-list">
+          <li>
+            <div class="option">
+              <input
+                type="radio"
+                name="answer-{{question[0]}}"
+                value="1"
+                id="answer-{{question[2]}}"
+              />
+              <label for="answer-{{question[2]}}">{{question[2]}}</label>
+            </div>
+          </li>
+          <li>
+            <div class="option">
+              <input
+                type="radio"
+                name="answer-{{question[0]}}"
+                value="2"
+                id="answer-{{question[3]}}"
+              />
+              <label for="answer-{{question[3]}}">{{question[3]}}</label>
+            </div>
+          </li>
+          <li>
+            <div class="option">
+              <input
+                type="radio"
+                name="answer-{{question[0]}}"
+                value="3"
+                id="answer-{{question[4]}}"
+              />
+              <label for="answer-{{question[4]}}">{{question[4]}}</label>
+            </div>
+          </li>
+          <li>
+            <div class="option">
+              <input
+                type="radio"
+                name="answer-{{question[0]}}"
+                value="4"
+                id="answer-{{question[5]}}"
+              />
+              <label for="answer-{{question[5]}}">{{question[5]}}</label>
+            </div>
+          </li>
+        </ul>
+      </li>
+      {% endfor %}
+      <li class="quiz-action">
+        <a href="javascript:void 0" class="previous">Prev</a>
+        <a href="javascript:void 0" class="next">Next</a>
+      </li>
+    </ul>
+    <div class="submit-your-quiz" style="display: none">
+      <h2>Congratulation!!</h2>
+      <h3>Click on submit button and Submit Your Quiz</h3>
+      <button type="submit" class="btn-submit" name="submitQuiz">Submit</button>
+    </div>
+  </form>
 </div>
 {% endblock %}

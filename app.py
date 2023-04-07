@@ -263,10 +263,14 @@ def all_results():
     return render_template('admin/all_results.html', the_title='All Results', results=result)
 
 
-@app.route('/take-quiz/<slug>/question')
+@app.route('/take-quiz/<slug>/question', methods=['GET', 'POST'])
 def quiz_taken(slug):
     if checkUserLogin() is None:
         return redirect("/login")
+    formdata = request.form
+    if formdata.get('submitQuiz') is not None:
+        conn = dbconnection()
+        return redirect("/take-quiz/"+slug+"/result")
     conn = dbconnection()
     cursor = conn.cursor()
     cursor.execute("select * from quizz where quiz_url=%s", (slug,))
@@ -275,6 +279,11 @@ def quiz_taken(slug):
     cursor.execute("select * from question where quiz_id=%s", (quizdata[0],))
     questionData = cursor.fetchall()
     return render_template('user/quiz-take.html', the_title='Take Quiz', quizdata=quizdata, questionData=questionData)
+
+
+@app.route('/take-quiz/<slug>/result')
+def quiz_result(slug):
+    return "success"
 
 
 @app.route('/index')

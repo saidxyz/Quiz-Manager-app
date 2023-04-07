@@ -201,3 +201,27 @@ a.next {
     border-radius: 4px;
     margin-left: 20px;
 }
+.submit-your-quiz {
+    text-align: center;
+    padding: 50px 0;
+}
+
+button.btn-submit {
+    background: #0dc367;
+    border: 0px;
+    color: #fff;
+    font-size: 24px;
+    font-weight: bold;
+    border-radius: 10px;
+    padding: 30px 100px;
+    min-width: 300px;
+    cursor: pointer;
+}
+
+.submit-your-quiz h3 {
+    font-size: 30px;
+}
+
+.submit-your-quiz h2 {
+    font-size: 40px;
+}
