@@ -1,0 +1,46 @@
+{% extends 'base.html' %} {% block body %}
+<h1>{{ the_title }}</h1>
+<table cellpadding="0" cellspacing="0" class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <td colspan="2">{{userData[2]}} {{ userData[3]}}</td>
+    </tr>
+    <tr>
+      <th>Email</th>
+      <td colspan="2">{{userData[1]}}</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td colspan="3"><b>Quiz Name: {{quizdata[2]}}</b></td>
+    </tr>
+    <tr>
+      <th>Question</th>
+      <th>Answer</th>
+      <th>Marks</th>
+    </tr>
+    {% for question in answerData%}
+    <tr>
+      <td>{{question[6]}}</td>
+      <td {% if question[3] == 0 %} style="color:#f00"  {% else %} style="color:rgb(16, 156, 28)"  {% endif %}>{{question[2]}}</td>
+      <td>{{question[3]}}</td>
+    </tr>
+    {% endfor %}
+
+    <tr>
+      <th>Obtained Marks</th>
+      <td colspan="2">0</td>
+    </tr>
+    <tr>
+      <th>Total Marks</th>
+      <td colspan="2">0</td>
+    </tr>
+    <tr>
+      <th>Percentage</th>
+      <td colspan="2">0%</td>
+    </tr>
+  </tbody>
+</table>
+
+{% endblock %}

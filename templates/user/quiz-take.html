@@ -67,7 +67,10 @@
     <div class="submit-your-quiz" style="display: none">
       <h2>Congratulation!!</h2>
       <h3>Click on submit button and Submit Your Quiz</h3>
-      <button type="submit" class="btn-submit" name="submitQuiz">Submit</button>
+      <input type="hidden" name="quiz_id" value="{{quizdata[0]}}" />
+      <button type="submit" class="btn-submit" name="submitQuiz" value="submit">
+        Submit
+      </button>
     </div>
   </form>
 </div>
