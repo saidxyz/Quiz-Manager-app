@@ -2,7 +2,7 @@
 <h1>{{ the_title }}</h1>
 <table cellpadding="0" cellspacing="0" class="table">
   <thead>
-    <th>id</th>
+    <th width="50">id</th>
     <th>Title</th>
 
     <th>Action</th>
@@ -10,16 +10,19 @@
   <tbody>
     {% for q in quiz %}
     <tr>
-      <td>{{ q[0] }}</td>
+      <td width="50">#{{ q[0] }}</td>
       <td>{{ q[2] }}</td>
 
       <td>
+        {% if q[0] not in answerData %}
         <a href="/take-quiz/{{ q[3] }}/question" class="btn-primary"
           >Take Quiz</a
         >
+        {% else %}
         <a href="/take-quiz/{{ q[3] }}/result" class="btn-secondary"
           >View Results</a
         >
+        {% endif %}
       </td>
     </tr>
     {% endfor %}

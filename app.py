@@ -92,12 +92,27 @@ def quiz():
     cursor = conn.cursor()
     cursor.execute("select * from quiz order by id desc")
     quiz = cursor.fetchall()
-    return render_template('user/quiz.html', the_title='Quiz', quiz=quiz)
+    cursor = conn.cursor()
+    cursor.execute(
+        "select * from answer where user_id=%s group by quiz_id", (session.get("user_id"),))
+    answer = cursor.fetchall()
+    answerData = []
+    for a in answer:
+        if a[4] is not None:
+            answerData.append(int(a[4]))
+    return render_template('user/quiz.html', the_title='Quiz', quiz=quiz, answerData=answerData)
 
 
 @app.route('/results')
 def results():
-    return render_template('bruker/results.html', the_title='Results')
+    if checkUserLogin() is None:
+        return redirect("/login")
+    conn = dbconnection()
+    cursor = conn.cursor()
+    cursor.execute(
+        "select quiz.* from quiz inner join answer on quiz.id=answer.quiz_id where answer.user_id=%s group by answer.quiz_id order by quiz.id desc", (session.get("user_id"),))
+    quiz = cursor.fetchall()
+    return render_template('user/resultslist.html', the_title='Results', quiz=quiz)
 
 
 @app.route('/admin/quiz')
@@ -246,16 +261,17 @@ def quizzes():
     return render_template('admin/quizzes.html', the_title='Quizzes', quiz=result)
 
 
-@app.route('/all_results')
+@app.route('/admin/all_results')
 def all_results():
     if checkUserLogin() is None or checkUserRole('1') is False:
         return redirect("/login")
-    conn = mysql.connector.connect(**dbconfig)
+    conn = dbconnection()
     cursor = conn.cursor()
-    _SQL = """SELECT * FROM results"""
-    cursor.execute(_SQL)
-    result = cursor.fetchall()
-    return render_template('admin/all_results.html', the_title='All Results', results=result)
+    cursor.execute(
+        "select quiz.*,answer.user_id from quiz inner join answer on quiz.id=answer.quiz_id group by answer.quiz_id order by quiz.id desc")
+    quiz = cursor.fetchall()
+    # print(quiz)
+    return render_template('admin/all_results.html', the_title='All Results', quiz=quiz)
 
 
 @app.route('/take-quiz/<slug>/question', methods=['GET', 'POST'])
@@ -301,16 +317,47 @@ def quiz_result(slug):
     cursor.execute("select * from quiz where quiz_url=%s", (slug,))
     quizdata = cursor.fetchone()
     cursor = conn.cursor()
-    cursor.execute("select answer.*,question.title from answer inner join question on answer.question_id=question.id  where answer.quiz_id=%s and answer.user_id=%s",
+    cursor.execute("select answer.*,question.* from answer inner join question on answer.question_id=question.id  where answer.quiz_id=%s and answer.user_id=%s",
                    (quizdata[0], session.get('user_id')))
     answerData = cursor.fetchall()
-    print(answerData)
+    # print(answerData)
     cursor = conn.cursor()
     cursor.execute("select * from users where id=%s",
                    (session.get('user_id'),))
     userData = cursor.fetchone()
+    totalMarks = 0
+    obtainedMarks = 0
+    for answer in answerData:
+        # print(answer[5])
+        totalMarks = totalMarks + 1
+        obtainedMarks = obtainedMarks + int(answer[3])
+    return render_template('user/results.html', the_title='Results', answerData=answerData, userData=userData, quizdata=quizdata, totalMarks=totalMarks, obtainedMarks=obtainedMarks)
 
-    return render_template('user/results.html', the_title='Results', answerData=answerData, userData=userData, quizdata=quizdata)
+
+@ app.route('/takequiz/<slug>/result/<id>')
+def quiz_results(slug, id):
+    if checkUserLogin() is None:
+        return redirect("/login")
+    conn = dbconnection()
+    cursor = conn.cursor()
+    cursor.execute("select * from quiz where quiz_url=%s", (slug,))
+    quizdata = cursor.fetchone()
+    cursor = conn.cursor()
+    cursor.execute("select answer.*,question.* from answer inner join question on answer.question_id=question.id  where answer.quiz_id=%s and answer.user_id=%s",
+                   (quizdata[0], id))
+    answerData = cursor.fetchall()
+    # print(answerData)
+    cursor = conn.cursor()
+    cursor.execute("select * from users where id=%s",
+                   (id,))
+    userData = cursor.fetchone()
+    totalMarks = 0
+    obtainedMarks = 0
+    for answer in answerData:
+        # print(answer[5])
+        totalMarks = totalMarks + 1
+        obtainedMarks = obtainedMarks + int(answer[3])
+    return render_template('user/results.html', the_title='Results', answerData=answerData, userData=userData, quizdata=quizdata, totalMarks=totalMarks, obtainedMarks=obtainedMarks)
 
 
 @ app.route('/index')
