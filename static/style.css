@@ -225,3 +225,23 @@ button.btn-submit {
 .submit-your-quiz h2 {
     font-size: 40px;
 }
+
+.flash.error {
+    padding: 0px 600px;
+    max-width: 767px;
+    display: block;
+    margin: 0 auto;
+    background: #dd9a9a;
+    padding: 20px;
+    border: 1px solid #a1a1a1;
+}
+
+.flash.success {
+    padding: 0px 600px;
+    max-width: 767px;
+    display: block;
+    margin:  0 auto;
+    background: #a1d9a1;
+    padding: 20px;
+    border: 1px solid #a1a1a1;
+}

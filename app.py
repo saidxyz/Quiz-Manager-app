@@ -1,5 +1,6 @@
 import mysql.connector
-from flask import Flask, redirect, render_template, request, session, url_for
+from flask import (Flask, flash, redirect, render_template, request, session,
+                   url_for)
 
 dbconfig = {'host': 'kark.uit.no',
             'user': 'stud_v23_ssa171',
@@ -31,7 +32,7 @@ def checkUserRole(role):
 
 @app.route('/')
 def index():
-    return render_template('home.html', the_title='Development page')
+    return render_template('home.html', the_title='Development Quiz App')
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -53,7 +54,7 @@ def login():
             else:
                 return redirect("/quiz")
         else:
-            message = "Invalid login credentials."
+            flash('Error when logging in. Please check email and password', 'error')
     return render_template('login.html', the_title='Login', message=message)
 
 
@@ -73,13 +74,16 @@ def register():
         cursor.execute("select * from users where email=%s",
                        (formdata.get("email"),))
         row = cursor.fetchone()
+        print(row)
         if row is not None:
-            message = "User already exists."
+            flash('User already exists.', 'error')
+            # message = "User already exists."
         else:
             cursor.execute(
                 "insert into users(email,first_name,last_name,password,is_admin) values(%s,%s,%s,%s,%s)", (formdata.get("email"), formdata.get("first_name"), formdata.get("last_name"), formdata.get("password"), formdata.get("user_type")))
             conn.commit()
-            message = "User created successfully."
+            flash('User created successfully.', 'success')
+            # message = "User created successfully."
             return redirect("/login")
     return render_template('register.html', the_title='Register', message=message)
 
@@ -87,6 +91,7 @@ def register():
 @app.route('/quiz')
 def quiz():
     if checkUserLogin() is None:
+        flash('You need to log in first to se Quiz!', 'error')
         return redirect("/login")
     conn = dbconnection()
     cursor = conn.cursor()
@@ -106,6 +111,7 @@ def quiz():
 @app.route('/results')
 def results():
     if checkUserLogin() is None:
+        flash('You need to log in first to se Results!', 'error')
         return redirect("/login")
     conn = dbconnection()
     cursor = conn.cursor()
@@ -140,13 +146,15 @@ def create_quiz():
                        (formdata.get("quiz_url"),))
         row = cursor.fetchone()
         if row is not None:
-            message = "Quiz URL already exists."
+            flash('Quiz URL already exists.', 'error')
+            # message = "Quiz URL already exists."
         else:
             cursor.execute(
                 "insert into quiz(title,quiz_url,user_id) values(%s,%s,%s)", (formdata.get("title"), formdata.get("quiz_url"), session.get("user_id")))
             conn.commit()
-            message = "Quiz created successfully."
-            return redirect("/admin/quiz")
+            flash('Quiz URL already exists.', 'success')
+            # message = "Quiz created successfully."
+            return redirect("/admin/create_quiz")
     return render_template('admin/create_quiz.html', the_title='Create Quiz', message=message)
 
 
