@@ -245,3 +245,23 @@ button.btn-submit {
     padding: 20px;
     border: 1px solid #a1a1a1;
 }
+
+.flash.info {
+    padding: 0px 600px;
+    max-width: 767px;
+    display: block;
+    margin:  0 auto;
+    background: #a1d6d9;
+    padding: 20px;
+    border: 1px solid #a1a1a1;
+}
+
+.flash.warning {
+    padding: 0px 600px;
+    max-width: 767px;
+    display: block;
+    margin:  0 auto;
+    background: #d9d4a1;
+    padding: 20px;
+    border: 1px solid #a1a1a1;
+}

@@ -1,4 +1,4 @@
-{% extends 'base.html' %} {% block body %}
+{% extends 'base.html' %} {% block body %} {{ super() }}
 <h1>{{ the_title }}</h1>
 <a href="/admin/question/{{ quizdata[0] }}/create" class="ceate-new"
   >Create New Question</a

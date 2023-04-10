@@ -30,12 +30,12 @@ def checkUserRole(role):
         return False
 
 
-@app.route('/')
+@app.route('/home')
 def index():
     return render_template('home.html', the_title='Development Quiz App')
 
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])
 def login():
     message = ""
     formdata = request.form
@@ -61,7 +61,7 @@ def login():
 @app.route('/logout', methods=["GET", "POST"])
 def logout():
     session.clear()
-    return redirect("/login")
+    return redirect("/")
 
 
 @app.route('/register', methods=["GET", "POST"])
@@ -74,6 +74,8 @@ def register():
         cursor.execute("select * from users where email=%s",
                        (formdata.get("email"),))
         row = cursor.fetchone()
+        print(conn)
+        print(cursor)
         print(row)
         if row is not None:
             flash('User already exists.', 'error')
@@ -82,9 +84,10 @@ def register():
             cursor.execute(
                 "insert into users(email,first_name,last_name,password,is_admin) values(%s,%s,%s,%s,%s)", (formdata.get("email"), formdata.get("first_name"), formdata.get("last_name"), formdata.get("password"), formdata.get("user_type")))
             conn.commit()
+            print(conn)
             flash('User created successfully.', 'success')
             # message = "User created successfully."
-            return redirect("/login")
+            return redirect("/")
     return render_template('register.html', the_title='Register', message=message)
 
 
@@ -92,7 +95,7 @@ def register():
 def quiz():
     if checkUserLogin() is None:
         flash('You need to log in first to se Quiz!', 'error')
-        return redirect("/login")
+        return redirect("/")
     conn = dbconnection()
     cursor = conn.cursor()
     cursor.execute("select * from quiz order by id desc")
@@ -112,7 +115,7 @@ def quiz():
 def results():
     if checkUserLogin() is None:
         flash('You need to log in first to se Results!', 'error')
-        return redirect("/login")
+        return redirect("/")
     conn = dbconnection()
     cursor = conn.cursor()
     cursor.execute(
@@ -124,19 +127,20 @@ def results():
 @app.route('/admin/quiz')
 def admin_quizzes():
     if checkUserLogin() is None or checkUserRole('1') is False:
-        return redirect("/login")
+        return redirect("/")
     conn = dbconnection()
     cursor = conn.cursor()
     cursor.execute("select * from quiz where user_id=%s order by id desc",
                    (session.get("user_id"),))
     result = cursor.fetchall()
+    print(result)
     return render_template('admin/quizzes.html', the_title='Quizzes', quiz=result)
 
 
 @app.route('/admin/create_quiz', methods=['GET', 'POST'])
 def create_quiz():
     if checkUserLogin() is None or checkUserRole('1') is False:
-        return redirect("/login")
+        return redirect("/")
     message = ""
     formdata = request.form
     if (formdata.get("title") is not None):
@@ -152,16 +156,16 @@ def create_quiz():
             cursor.execute(
                 "insert into quiz(title,quiz_url,user_id) values(%s,%s,%s)", (formdata.get("title"), formdata.get("quiz_url"), session.get("user_id")))
             conn.commit()
-            flash('Quiz URL already exists.', 'success')
+            flash('Quiz created successfully.', 'success')
             # message = "Quiz created successfully."
-            return redirect("/admin/create_quiz")
+            return redirect("/admin/quiz")
     return render_template('admin/create_quiz.html', the_title='Create Quiz', message=message)
 
 
 @app.route('/admin/edit_quiz/<id>', methods=['GET', 'POST'])
 def edit_quiz(id):
     if checkUserLogin() is None or checkUserRole('1') is False:
-        return redirect("/login")
+        return redirect("/")
     formdata = request.form
     if formdata.get("quiz_id") is not None:
         conn = dbconnection()
@@ -169,6 +173,7 @@ def edit_quiz(id):
         cursor.execute("update quiz set title=%s,quiz_url=%s where id=%s and user_id=%s",
                        (formdata.get("title"), formdata.get("quiz_url"), id, session.get('user_id')))
         conn.commit()
+        flash('Quiz updated successfully.', 'info')
         return redirect("/admin/quiz")
     conn = dbconnection()
     cursor = conn.cursor()
@@ -181,31 +186,34 @@ def edit_quiz(id):
 @app.route('/admin/delete_quiz/<id>', methods=['GET', 'POST'])
 def delete_quiz(id):
     if checkUserLogin() is None or checkUserRole('1') is False:
-        return redirect("/login")
+        return redirect("/")
     conn = dbconnection()
     cursor = conn.cursor()
     cursor.execute("delete from quiz where id=%s and user_id=%s",
                    (id, session.get('user_id')))
     conn.commit()
+    flash('Quiz deleted successfully.', 'warning')
     return redirect("/admin/quiz")
 
 
 @app.route('/admin/question/<id>/create', methods=['GET', 'POST'])
 def create_question(id):
     if checkUserLogin() is None or checkUserRole('1') is False:
-        return redirect("/login")
+        return redirect("/")
     conn = dbconnection()
     cursor = conn.cursor()
     cursor.execute("select * from quiz where id=%s and user_id=%s",
                    (id, session.get('user_id')))
     quizdata = cursor.fetchone()
     formdata = request.form
+    print(quizdata)
     if formdata.get("quiz_id") is not None:
         conn = dbconnection()
         cursor = conn.cursor()
         cursor.execute("insert into question(title,option1,option2,option3,option4,answer,quiz_id) values(%s,%s,%s,%s,%s,%s,%s)",
                        (formdata.get("title"), formdata.get("option1"), formdata.get("option2"), formdata.get("option3"), formdata.get("option4"), formdata.get("answer"), id))
         conn.commit()
+        flash('Question created successfully.', 'success')
         return redirect("/admin/question/"+id+"/all")
     return render_template('admin/create_question.html', the_title='Create Question', quizdata=quizdata)
 
@@ -213,13 +221,12 @@ def create_question(id):
 @app.route('/admin/question/<id>/all')
 def all_question(id):
     if checkUserLogin() is None or checkUserRole('1') is False:
-        return redirect("/login")
+        return redirect("/")
     conn = dbconnection()
     cursor = conn.cursor()
     cursor.execute("select * from quiz where id=%s and user_id=%s",
                    (id, session.get('user_id')))
     quizdata = cursor.fetchone()
-    formdata = request.form
     cursor = conn.cursor()
     cursor.execute(
         "select * from question where quiz_id=%s order by id desc", (id,))
@@ -230,7 +237,7 @@ def all_question(id):
 @app.route('/admin/edit_question/<id>/<qid>', methods=['GET', 'POST'])
 def edit_question(id, qid):
     if checkUserLogin() is None or checkUserRole('1') is False:
-        return redirect("/login")
+        return redirect("/")
     formdata = request.form
     if formdata.get("quiz_id") is not None:
         conn = dbconnection()
@@ -238,6 +245,7 @@ def edit_question(id, qid):
         cursor.execute("update question set title=%s,option1=%s,option2=%s,option3=%s,option4=%s,answer=%s where id=%s and quiz_id=%s",
                        (formdata.get("title"), formdata.get("option1"), formdata.get("option2"), formdata.get("option3"), formdata.get("option4"), formdata.get("answer"), qid, id))
         conn.commit()
+        flash('Question updated successfully.', 'info')
         return redirect("/admin/question/"+id+"/all")
     conn = dbconnection()
     cursor = conn.cursor()
@@ -250,12 +258,13 @@ def edit_question(id, qid):
 @app.route('/admin/delete_question/<id>/<qid>', methods=['GET', 'POST'])
 def delete_question(id, qid):
     if checkUserLogin() is None or checkUserRole('1') is False:
-        return redirect("/login")
+        return redirect("/")
     conn = dbconnection()
     cursor = conn.cursor()
     cursor.execute("delete from question where id=%s and quiz_id=%s",
                    (qid, id))
     conn.commit()
+    flash('Question deleted successfully.', 'warning')
     return redirect("/admin/question/"+id+"/all")
 
 
@@ -272,7 +281,7 @@ def quizzes():
 @app.route('/admin/all_results')
 def all_results():
     if checkUserLogin() is None or checkUserRole('1') is False:
-        return redirect("/login")
+        return redirect("/")
     conn = dbconnection()
     cursor = conn.cursor()
     cursor.execute(
@@ -285,14 +294,14 @@ def all_results():
 @app.route('/take-quiz/<slug>/question', methods=['GET', 'POST'])
 def quiz_taken(slug):
     if checkUserLogin() is None:
-        return redirect("/login")
+        return redirect("/")
     formdata = request.form
     if formdata.get('submitQuiz') is not None:
         conn = dbconnection()
         print("called")
 
         for question in formdata.getlist('questions'):
-            # print(question)
+            print(question)
             marks = 0
             cursor = conn.cursor()
             cursor.execute("select * from question where id=%s", (question,))
@@ -301,7 +310,7 @@ def quiz_taken(slug):
                 marks = 1
             cursor = conn.cursor()
             cursor.execute(
-                "insert into answer(question_id,user_id,quiz_id,answer,marks) values(%s,%s,%s,%s,%s)", (question, session.get(
+                "insert into answer(answer, marks,question_id,user_id,quiz_id) values(%s,%s,%s,%s,%s)", (question, session.get(
                     'user_id'), formdata.get('quiz_id'), formdata.get('answer-'+question), marks))
             conn.commit()
 
@@ -310,6 +319,7 @@ def quiz_taken(slug):
     cursor = conn.cursor()
     cursor.execute("select * from quiz where quiz_url=%s", (slug,))
     quizdata = cursor.fetchone()
+    print(quizdata)
     cursor = conn.cursor()
     cursor.execute("select * from question where quiz_id=%s", (quizdata[0],))
     questionData = cursor.fetchall()
@@ -319,7 +329,7 @@ def quiz_taken(slug):
 @ app.route('/take-quiz/<slug>/result')
 def quiz_result(slug):
     if checkUserLogin() is None:
-        return redirect("/login")
+        return redirect("/")
     conn = dbconnection()
     cursor = conn.cursor()
     cursor.execute("select * from quiz where quiz_url=%s", (slug,))
@@ -345,7 +355,7 @@ def quiz_result(slug):
 @ app.route('/takequiz/<slug>/result/<id>')
 def quiz_results(slug, id):
     if checkUserLogin() is None:
-        return redirect("/login")
+        return redirect("/")
     conn = dbconnection()
     cursor = conn.cursor()
     cursor.execute("select * from quiz where quiz_url=%s", (slug,))
@@ -368,23 +378,5 @@ def quiz_results(slug, id):
     return render_template('user/results.html', the_title='Results', answerData=answerData, userData=userData, quizdata=quizdata, totalMarks=totalMarks, obtainedMarks=obtainedMarks)
 
 
-@ app.route('/index')
-def hello() -> 'html':
-    conn = mysql.connector.connect(**dbconfig)
-    cursor = conn.cursor()
-    _SQL = """SELECT id, givenName, lastName, email, studyProgram FROM student"""
-    cursor.execute(_SQL)
-    result = cursor.fetchall()
-    return render_template('students.html',
-                           students=result)
-    cursor.close()
-    conn.close()
-
-
-@ app.route('/user/<name>')
-def user(name):
-    return '<h1>Hello, {}!</h1>'.format(name)
-
-
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=5001)

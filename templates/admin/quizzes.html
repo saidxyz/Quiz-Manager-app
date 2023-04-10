@@ -1,4 +1,4 @@
-{% extends 'base.html' %} {% block body %}
+{% extends 'base.html' %} {% block body %} {{ super() }}
 <h1>{{ the_title }}</h1>
 <table cellpadding="0" cellspacing="0" class="table">
   <thead>
@@ -11,8 +11,8 @@
     {% for q in quiz %}
     <tr>
       <td>{{ q[0] }}</td>
+      <td>{{ q[1] }}</td>
       <td>{{ q[2] }}</td>
-      <td>{{ q[3] }}</td>
       <td>
         <a href="/admin/edit_quiz/{{ q[0] }}" class="btn-primary">Edit</a>
         <a href="/admin/delete_quiz/{{ q[0] }}" class="btn-danger">Delete</a>

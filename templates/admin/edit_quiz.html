@@ -1,4 +1,4 @@
-{% extends 'base.html' %} {% block body %}
+{% extends 'base.html' %} {% block body %} {{ super() }}
 <div class="user-form">
   <h1>{{ the_title }}</h1>
   {% if message != "" %}
@@ -16,7 +16,7 @@
         quizdata
         !="None"
         %}
-        value="{{quizdata[2]}}"
+        value="{{quizdata[1]}}"
         {%
         endif
         %}
@@ -33,7 +33,7 @@
         quizdata
         !="None"
         %}
-        value="{{quizdata[3]}}"
+        value="{{quizdata[2]}}"
         {%
         endif
         %}

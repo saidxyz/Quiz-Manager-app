@@ -11,10 +11,10 @@
     {% for q in quiz %}
     <tr>
       <td width="50">#{{ q[0] }}</td>
-      <td>{{ q[2] }}</td>
+      <td>{{ q[1] }}</td>
 
       <td>
-        {% if q[0] not in answerData %}
+        {% if q[3] not in answerData %}
         <a href="/take-quiz/{{ q[3] }}/question" class="btn-primary"
           >Take Quiz</a
         >

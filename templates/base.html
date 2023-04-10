@@ -8,13 +8,13 @@
   <body>
     <header>
       <ul>
+        {% if session.get("user_id") == None %}
         <li>
           <a href="/">Home</a>
         </li>
-
-        {% if session.get("is_admin") == '1' %}
-        <li><a href="/quiz">Public Quiz</a></li>
+        {% endif %} {% if session.get("is_admin") == '1' %}
         <li><a href="/admin/create_quiz">Create Quiz</a></li>
+        <li><a href="/quiz">Public Quiz</a></li>
         <li><a href="/admin/quiz">Manage Quiz</a></li>
         <li><a href="/admin/all_results">All Results</a></li>
         {% else %}
@@ -25,8 +25,6 @@
         <li>
           {% if session.get("user_id") != None %}
           <a href="/logout">Logout</a>
-          {% else %}
-          <a href="/login">Login</a>
           {% endif %}
         </li>
       </ul>
