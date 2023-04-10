@@ -14,12 +14,12 @@
       <td>{{ q[1] }}</td>
 
       <td>
-        {% if q[3] not in answerData %}
-        <a href="/take-quiz/{{ q[3] }}/question" class="btn-primary"
+        {% if q[0] not in answerData %}
+        <a href="/take-quiz/{{ q[2] }}/question" class="btn-primary"
           >Take Quiz</a
         >
         {% else %}
-        <a href="/take-quiz/{{ q[3] }}/result" class="btn-secondary"
+        <a href="/take-quiz/{{ q[2] }}/result" class="btn-secondary"
           >View Results</a
         >
         {% endif %}

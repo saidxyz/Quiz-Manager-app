@@ -310,7 +310,7 @@ def quiz_taken(slug):
                 marks = 1
             cursor = conn.cursor()
             cursor.execute(
-                "insert into answer(answer, marks,question_id,user_id,quiz_id) values(%s,%s,%s,%s,%s)", (question, session.get(
+                "insert into answer(question_id,user_id,quiz_id,answer, marks) values(%s,%s,%s,%s,%s)", (question, session.get(
                     'user_id'), formdata.get('quiz_id'), formdata.get('answer-'+question), marks))
             conn.commit()
 
@@ -348,7 +348,7 @@ def quiz_result(slug):
     for answer in answerData:
         # print(answer[5])
         totalMarks = totalMarks + 1
-        obtainedMarks = obtainedMarks + int(answer[3])
+        obtainedMarks = obtainedMarks + int(answer[2])
     return render_template('user/results.html', the_title='Results', answerData=answerData, userData=userData, quizdata=quizdata, totalMarks=totalMarks, obtainedMarks=obtainedMarks)
 
 
@@ -374,7 +374,7 @@ def quiz_results(slug, id):
     for answer in answerData:
         # print(answer[5])
         totalMarks = totalMarks + 1
-        obtainedMarks = obtainedMarks + int(answer[3])
+        obtainedMarks = obtainedMarks + int(answer[2])
     return render_template('user/results.html', the_title='Results', answerData=answerData, userData=userData, quizdata=quizdata, totalMarks=totalMarks, obtainedMarks=obtainedMarks)
 
 

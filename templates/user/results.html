@@ -23,8 +23,8 @@
     {% for question in answerData%}
     <tr>
       <td>{{question[7]}}</td>
-      <td {% if question[3] == '0' %} style="color:#f00"  {% else %} style="color:rgb(16, 156, 28)"  {% endif %}>{{question[question[2]|int + 7] }} <small style="display: block;color:#000">(Correct Answer :{{question[question[12]|int + 7] }})</small></td>
-      <td>{{question[3]}}</td>
+      <td {% if question[2] == '0' %} style="color:#f00"  {% else %} style="color:rgb(16, 156, 28)"  {% endif %}>{{question[question[2]|int + 7] }} <small style="display: block;color:#000">(Correct Answer :{{question[question[12]|int + 7] }})</small></td>
+      <td>{{question[2]}}</td>
     </tr>
     {% endfor %}
 

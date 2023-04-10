@@ -7,7 +7,7 @@
   {% endif %}
   <form method="post" action="">
     <div class="form-group">
-      <label>Question Title</label>
+      <label>Question</label>
       <input
         type="text"
         class="form-control"
@@ -16,7 +16,7 @@
       />
     </div>
     <div class="form-group">
-      <label>Option 1</label>
+      <label>a</label>
       <input
         type="text"
         class="form-control"
@@ -25,7 +25,7 @@
       />
     </div>
     <div class="form-group">
-      <label>Option 2</label>
+      <label>b</label>
       <input
         type="text"
         class="form-control"
@@ -34,7 +34,7 @@
       />
     </div>
     <div class="form-group">
-      <label>Option 3</label>
+      <label>c</label>
       <input
         type="text"
         class="form-control"
@@ -43,7 +43,7 @@
       />
     </div>
     <div class="form-group">
-      <label>Option 4</label>
+      <label>d</label>
       <input
         type="text"
         class="form-control"
@@ -54,10 +54,10 @@
     <div class="form-group">
       <label>Answer</label>
       <select class="form-control" name="answer">
-        <option value="1">Option 1</option>
-        <option value="2" {% if questiondata[6] == "2" %} selected {% endif %}>Option 2</option>
-        <option value="3"  {% if questiondata[6] == "3" %} selected {% endif %}>Option 3</option>
-        <option value="4"  {% if questiondata[6] == "4" %} selected {% endif %}>Option 4</option>
+        <option value="1">a</option>
+        <option value="2" {% if questiondata[6] == "2" %} selected {% endif %}>b</option>
+        <option value="3"  {% if questiondata[6] == "3" %} selected {% endif %}>c</option>
+        <option value="4"  {% if questiondata[6] == "4" %} selected {% endif %}>d</option>
       </select>
     </div>
     <div class="form-group">

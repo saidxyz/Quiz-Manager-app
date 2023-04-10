@@ -4,6 +4,7 @@
   <thead>
     <th>id</th>
     <th>Title</th>
+    <th>Description</th>
 
     <th>Action</th>
   </thead>
@@ -11,10 +12,11 @@
     {% for q in quiz %}
     <tr>
       <td>{{ q[0] }}</td>
+      <td>{{ q[1] }}</td>
       <td>{{ q[2] }}</td>
 
       <td>
-        <a href="/take-quiz/{{ q[3] }}/result" class="btn-secondary"
+        <a href="/take-quiz/{{ q[2] }}/result" class="btn-secondary"
           >View Results</a
         >
       </td>
