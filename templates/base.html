@@ -14,9 +14,10 @@
         </li>
         {% endif %} {% if session.get("is_admin") == '1' %}
         <li><a href="/admin/create_quiz">Create Quiz</a></li>
-        <li><a href="/quiz">Public Quiz</a></li>
+        <li><a href="/quiz">Quiz</a></li>
         <li><a href="/admin/quiz">Manage Quiz</a></li>
         <li><a href="/admin/all_results">All Results</a></li>
+        <li><a href="/results">Results</a></li>
         {% else %}
         <li><a href="/quiz">Quiz</a></li>
         <li><a href="/results">Results</a></li>

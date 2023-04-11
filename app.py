@@ -37,9 +37,9 @@ def index():
 
 @app.route('/', methods=['GET', 'POST'])
 def login():
-    message = ""
     formdata = request.form
     if (formdata.get("email") is not None):
+        print(formdata.get("email"))
         conn = dbconnection()
         cursor = conn.cursor()
         cursor.execute("select * from users where email=%s and password=%s",
@@ -55,7 +55,7 @@ def login():
                 return redirect("/quiz")
         else:
             flash('Error when logging in. Please check email and password', 'error')
-    return render_template('login.html', the_title='Login', message=message)
+    return render_template('login.html', the_title='Login')
 
 
 @app.route('/logout', methods=["GET", "POST"])
@@ -66,7 +66,6 @@ def logout():
 
 @app.route('/register', methods=["GET", "POST"])
 def register():
-    message = ""
     formdata = request.form
     if (formdata.get("email") is not None):
         conn = dbconnection()
@@ -74,21 +73,16 @@ def register():
         cursor.execute("select * from users where email=%s",
                        (formdata.get("email"),))
         row = cursor.fetchone()
-        print(conn)
-        print(cursor)
         print(row)
         if row is not None:
             flash('User already exists.', 'error')
-            # message = "User already exists."
         else:
             cursor.execute(
                 "insert into users(email,first_name,last_name,password,is_admin) values(%s,%s,%s,%s,%s)", (formdata.get("email"), formdata.get("first_name"), formdata.get("last_name"), formdata.get("password"), formdata.get("user_type")))
             conn.commit()
-            print(conn)
             flash('User created successfully.', 'success')
-            # message = "User created successfully."
             return redirect("/")
-    return render_template('register.html', the_title='Register', message=message)
+    return render_template('register.html', the_title='Register')
 
 
 @app.route('/quiz')
@@ -379,4 +373,4 @@ def quiz_results(slug, id):
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5001)
+    app.run(debug=True)
