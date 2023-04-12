@@ -6,7 +6,9 @@ dbconfig = {'host': 'kark.uit.no',
             'user': 'stud_v23_ssa171',
             'password': 'flaskappquiz23',
             'database': 'stud_v23_ssa171'}
+
 app = Flask(__name__)
+
 app.config["SECRET_KEY"] = "$5123F324"
 
 
@@ -98,6 +100,7 @@ def quiz():
     cursor.execute(
         "select * from answer where user_id=%s group by quiz_id", (session.get("user_id"),))
     answer = cursor.fetchall()
+    print(answer)
     answerData = []
     for a in answer:
         if a[4] is not None:
@@ -290,9 +293,19 @@ def quiz_taken(slug):
     if checkUserLogin() is None:
         return redirect("/")
     formdata = request.form
+    retakeQuiz = 0
+    if request.args.get('retake') is not None:
+        retakeQuiz = 1
     if formdata.get('submitQuiz') is not None:
         conn = dbconnection()
+        cursor = conn.cursor()
         print("called")
+        if formdata.get('retakeQuiz') == "1":
+            print("called 1")
+            cursor = conn.cursor()
+            cursor.execute("delete from answer where user_id=%s and quiz_id=%s",
+                           (session.get("user_id"), formdata.get("quiz_id")))
+            conn.commit()
 
         for question in formdata.getlist('questions'):
             print(question)
@@ -300,6 +313,8 @@ def quiz_taken(slug):
             cursor = conn.cursor()
             cursor.execute("select * from question where id=%s", (question,))
             questionData = cursor.fetchone()
+            print(questionData)
+            print(questionData[6])
             if str(questionData[6]) == str(formdata.get('answer-'+question)):
                 marks = 1
             cursor = conn.cursor()
@@ -317,7 +332,7 @@ def quiz_taken(slug):
     cursor = conn.cursor()
     cursor.execute("select * from question where quiz_id=%s", (quizdata[0],))
     questionData = cursor.fetchall()
-    return render_template('user/quiz-take.html', the_title='Take Quiz', quizdata=quizdata, questionData=questionData)
+    return render_template('user/quiz-take.html', the_title='Take Quiz', quizdata=quizdata, questionData=questionData, retakeQuiz=retakeQuiz)
 
 
 @ app.route('/take-quiz/<slug>/result')
