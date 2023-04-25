@@ -8,18 +8,12 @@
     <div class="form-group">
       <label>Title</label>
       <input
-        type="text"
+        type="text" placeholder="write a title"
         class="form-control"
         name="title"
-        {%
-        if
-        quizdata
-        !="None"
-        %}
+        {% if quizdata !="None" %}
         value="{{quizdata[1]}}"
-        {%
-        endif
-        %}
+        {% endif %}
       />
     </div>
     <div class="form-group">
@@ -28,15 +22,9 @@
         type="text"
         class="form-control"
         name="quiz_url"
-        {%
-        if
-        quizdata
-        !="None"
-        %}
+        {% if quizdata !="None" %}
         value="{{quizdata[2]}}"
-        {%
-        endif
-        %}
+        {% endif %}
       />
     </div>
 

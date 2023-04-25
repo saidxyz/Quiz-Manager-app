@@ -43,8 +43,10 @@ def login():
     formdata = request.form
     if formdata.get("email") is not None:
         print(formdata.get("email"))
+        print(formdata.get("password"))
         conn = dbconnection()
         cursor = conn.cursor()
+        
         cursor.execute(
             "select * from users where email=%s and password=%s",
             (formdata.get("email"), formdata.get("password")),
@@ -65,6 +67,7 @@ def login():
 
 @app.route("/logout", methods=["GET", "POST"])
 def logout():
+    print(session.get)
     session.clear()
     return redirect("/")
 
@@ -77,7 +80,6 @@ def register():
         cursor = conn.cursor()
         cursor.execute("select * from users where email=%s", (formdata.get("email"),))
         row = cursor.fetchone()
-        print(row)
         if row is not None:
             flash("User already exists.", "error")
         else:
@@ -106,18 +108,26 @@ def quiz():
     cursor = conn.cursor()
     cursor.execute("select * from quiz order by id desc")
     quiz = cursor.fetchall()
-    print(quiz)
+    print("quiz")
+    for i in quiz:
+        print(i)
     cursor = conn.cursor()
     cursor.execute(
         "select * from answer where user_id=%s group by quiz_id",
         (session.get("user_id"),),
     )
     answer = cursor.fetchall()
-    print(answer)
+    print("answer")
+    for x in answer:
+        print(x)
     answerData = []
     for a in answer:
         if a[4] is not None:
             answerData.append(int(a[4]))
+    print("answerData")
+    print(answerData)
+    for b in answerData:
+        print(b)
     return render_template(
         "user/quiz.html", the_title="Quiz", quiz=quiz, answerData=answerData
     )
@@ -132,10 +142,11 @@ def results():
     cursor = conn.cursor()
     cursor.execute(
         "select quiz.* from quiz inner join answer on quiz.id=answer.quiz_id where answer.user_id=%s group by answer.quiz_id order by quiz.id desc",
-        (session.get("user_id"),),
-    )
+        (session.get("user_id"),),)
     quiz = cursor.fetchall()
-    print(quiz)
+    print("taken quiz")
+    for i in quiz:
+        print(i)
     return render_template("user/resultslist.html", the_title="Results", quiz=quiz)
 
 
@@ -146,12 +157,14 @@ def admin_quizzes():
     conn = dbconnection()
     cursor = conn.cursor()
     cursor.execute(
-        "select * from quiz where user_id=%s order by id desc",
-        (session.get("user_id"),),
-    )
+        "select * from quiz where user_id=%s order by id desc",(session.get("user_id"),),)
     result = cursor.fetchall()
-    print(result)
-    return render_template("admin/quizzes.html", the_title="Quizzes", quiz=result)
+    print("result")
+    count = 0
+    for i in result:
+        count += 1
+        print(f"{count}: {i}")
+    return render_template("admin/manage_quiz.html", the_title="Manage quiz", quiz=result)
 
 
 @app.route("/admin/create_quiz", methods=["GET", "POST"])
@@ -166,7 +179,6 @@ def create_quiz():
             "select * from quiz where quiz_url=%s", (formdata.get("quiz_url"),)
         )
         row = cursor.fetchone()
-        print(row)
         if row is not None:
             flash("Quiz URL already exists.", "error")
             # message = "Quiz URL already exists."
@@ -212,6 +224,9 @@ def edit_quiz(id):
         "select * from quiz where id=%s and user_id=%s", (id, session.get("user_id"))
     )
     quizdata = cursor.fetchone()
+    print("quizdata")
+    for i in quizdata:
+        print(i)
     return render_template(
         "admin/edit_quiz.html", the_title="Edit Quiz", quizdata=quizdata
     )
@@ -235,7 +250,7 @@ def delete_quiz(id):
 def create_question(id):
     if checkUserLogin() is None or checkUserRole("1") is False:
         return redirect("/")
-    conn = dbconnection()
+    conn =dbconnection()
     cursor = conn.cursor()
     cursor.execute(
         "select * from quiz where id=%s and user_id=%s", (id, session.get("user_id"))
@@ -315,6 +330,7 @@ def edit_question(id, qid):
     cursor = conn.cursor()
     cursor.execute("select * from question where id=%s and quiz_id=%s", (qid, id))
     questiondata = cursor.fetchone()
+    print(questiondata)
     return render_template(
         "admin/edit_question.html", the_title="Edit Question", questiondata=questiondata
     )
@@ -332,14 +348,14 @@ def delete_question(id, qid):
     return redirect("/admin/question/" + id + "/all")
 
 
-@app.route("/quizzes")
+@app.route("/Manage_quiz")
 def quizzes():
     conn = mysql.connector.connect(**dbconfig)
     cursor = conn.cursor()
     _SQL = """SELECT * FROM quiz"""
     cursor.execute(_SQL)
     result = cursor.fetchall()
-    return render_template("admin/quizzes.html", the_title="Quizzes", quiz=result)
+    return render_template("admin/manage_quiz.html", the_title="Manage quiz", quiz=result)
 
 
 @app.route("/admin/all_results")
