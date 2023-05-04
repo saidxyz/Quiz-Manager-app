@@ -3,9 +3,9 @@ from flask import Flask, flash, redirect, render_template, request, session, url
 
 dbconfig = {
     "host": "kark.uit.no",
-    "user": "stud_v23_ssa171",
-    "password": "flaskappquiz23",
-    "database": "stud_v23_ssa171",
+    "user": "",
+    "password": "",
+    "database": "",
 }
 
 app = Flask(__name__)
