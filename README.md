@@ -1,3 +1,55 @@
+You need to install the following Python packages:
+
+1. **MySQL Connector**: Used for connecting your Python application to a MySQL database.
+2. **Flask**: A web framework for Python that allows you to build web applications.
+
+You can install these packages using `pip`, which is the package installer for Python.
+
+### Step-by-Step Instructions:
+
+1. **Open your terminal or command prompt**.
+2. **Install Flask**:
+   ```bash
+   pip install Flask
+   ```
+
+3. **Install MySQL Connector**:
+   ```bash
+   pip install mysql-connector-python
+   ```
+
+This will install the necessary libraries to run the code you provided.
+
+### Verify Installation:
+To ensure the packages are installed correctly, you can run the following commands in a Python environment:
+
+```python
+import mysql.connector
+from flask import Flask, flash, redirect, render_template, request, session, url_for
+```
+
+If there are no errors, the packages have been installed successfully.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 **QuizMaster**
 The project consolidates individual solutions into a unified system that allows administrators to create and manage quizzes with various question types.
 
