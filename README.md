@@ -6,6 +6,22 @@ Admin Capabilities: Create, approve, or delete quizzes and individual questions.
 User Interaction: Users cannot view their quiz results until they are approved by an administrator.
 Security & Feedback: Includes XSS, CSRF, and SQL Injection protections, with feedback mechanisms based on stored correct answers.
 
+**Network address and login information**
+
+Username and password in the database
+
+In the attached SQL script that generates the database, two users have been added: one with administrator privileges and one regular user.
+
+Admin:
+E-mail: admin@uit.no
+Password: 123456
+
+Normal User:
+E-mail: bruker@uit.no
+password: 123456
+
+
+
 **Project Structure**
 
 ![image](https://github.com/user-attachments/assets/b02bf238-47f9-4597-b663-21d833dade52)
