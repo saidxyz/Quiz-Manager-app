@@ -13,13 +13,11 @@ Username and password in the database
 In the attached SQL script that generates the database, two users have been added: one with administrator privileges and one regular user.
 
 Admin:
-
 E-mail: admin@uit.no
 
 Password: 123456
 
 Normal User:
-
 E-mail: bruker@uit.no
 
 password: 123456
