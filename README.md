@@ -14,10 +14,12 @@ In the attached SQL script that generates the database, two users have been adde
 
 Admin:
 E-mail: admin@uit.no
+
 Password: 123456
 
 Normal User:
 E-mail: bruker@uit.no
+
 password: 123456
 
 
