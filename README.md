@@ -42,6 +42,4 @@ views/: Manages application routing, user interaction, and admin functionalities
 Implement confirmation dialogs for deletions to avoid accidental data loss.
 Add pagination to handle large sets of quizzes and improve system performance.
 
-**Contributors**
-Madeleine Randine Woodbury (mwo030@uit.no)
-Said Nasser Said (ssa171@uit.no)
+
