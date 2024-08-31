@@ -9,6 +9,7 @@ Security & Feedback: Includes XSS, CSRF, and SQL Injection protections, with fee
 **Project Structure**
 
 ![image](https://github.com/user-attachments/assets/b02bf238-47f9-4597-b663-21d833dade52)
+
 app.py: Initializes the Flask application, manages user authentication with Flask-Login, and handles routing.
 models/: Contains database classes and queries, managing connections and CRUD operations.
 static/: Holds JavaScript and CSS files for frontend interactivity and styling.
